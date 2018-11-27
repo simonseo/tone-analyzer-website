@@ -1,0 +1,24 @@
+{% from "_formhelpers.html" import render_flash, render_emotion_user, render_emotion_hashtag, render_emotion_text %}
+{{ render_flash() }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p><a href="{{ urls[0] }}">Try again</a></p>
+    {% if input_field == "username" %}
+      {{ render_emotion_user(results['keyword'], results['data'], results['score']) }} 
+    {% endif %}
+    {% if input_field == "hashtag" %}
+      {{ render_emotion_hashtag(results['keyword'], results['data']['statuses'], results['score']) }}
+    {% endif %}
+    {% if input_field == "text_data" %}
+      {{ render_emotion_text(results['data'], results['score']) }}
+    {% endif %}
+</body>
+</html>

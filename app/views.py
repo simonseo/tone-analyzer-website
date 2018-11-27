@@ -2,41 +2,70 @@
 # -*- coding: utf-8 -*- 
 # @File Name: views.py
 # @Created:   2018-11-27 10:59:29  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 11:50:42  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 15:26:48  Simon Seo (simon.seo@nyu.edu)
 import os, logging
 logger = logging.getLogger(__name__)
 
 # Flask and other private libs
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, session
 from pprint import pprint
 
 # Custom
 from app.api.azure import AzureCognitiveAPI
+from app.api.twitter import TwitterAPI
 from app import app
 from app.form import EmotionAnalysisForm
+from app.helpers import map_score_to_emotion
 
-api = AzureCognitiveAPI()
-documents = [
-	'I had a wonderful experience! The rooms were wonderful and the staff was helpful.',
-	'I had a terrible time at the hotel. The staff was rude and the food was awful.',
-	'Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.',
-	'La carretera estaba atascada. Había mucho tráfico el día de ayer.'
-	]
-pprint(api.analyze_emotion(documents))
+azure_api = AzureCognitiveAPI()
+twitter_api = TwitterAPI()
+
 
 @app.route('/analyze', methods=['GET', 'POST'])
-def page_analyze_emotion():
-    form = EmotionAnalysisForm(request.form) # is request.form required here? 
-    if request.method == 'POST' and form.validate():
-        if form.username.data:
-        	pass
-       	if form.hashtag.data:
-       		pass
-       	if form.text_data.data:
-       		pass
-        flash("Thanks for submitting. Received username:'{}', hashtag:'{}', text:'{}'".format(form.username.data, form.hashtag.data, form.text_data.data))
-        return redirect(url_for('page_analyze_emotion'))
-    else:
-	    return render_template('analyze.html', title='How are you feeling today?', form=form)
+def route_analyze_emotion():
+	form = EmotionAnalysisForm(request.form) # is request.form required here? 
+	if request.method == 'POST' and form.validate():
+		if form.username.data:
+			input_field = "username"
+			keyword = form.username.data.replace('@', '')
+			documents, response = twitter_api.get_tweets_by_username(keyword, 20)
+			documents = ' '.join(documents)
+			data = response
+			emotion_scores, errors = azure_api.analyze_emotion([documents], ['en'])
+		elif form.hashtag.data:
+			input_field = "hashtag"
+			keyword = form.hashtag.data.replace('#', '')
+			documents, response = twitter_api.get_tweets_by_hashtag(keyword, 20)
+			documents = ' '.join(documents)
+			data = response
+			emotion_scores, errors = azure_api.analyze_emotion([documents], ['en'])
+		elif form.text_data.data:
+			input_field = "text_data"
+			keyword = None
+			data = form.text_data.data
+			emotion_scores, errors = azure_api.analyze_emotion([form.text_data.data], ['en'])
+		session['results'] = {
+			'input_field' : input_field,
+			'keyword' : keyword,
+			'data' : data,
+			'score' : round(emotion_scores[0], 3)
+		}
+		flash("Thanks for submitting. Received username:'{}', hashtag:'{}', text:'{}'".format(form.username.data, form.hashtag.data, form.text_data.data))
+		return redirect(url_for('route_analysis_results'))
+	else:
+		return render_template('analyze.html', title='How are you feeling today?', form=form)
+
+@app.route('/results', methods=['GET'])
+def route_analysis_results():
+	score = session.get('results').get('score')
+	return render_template('results.html', 
+		title='I am feeling {}'.format(map_score_to_emotion(score)), 
+		input_field=session.get('input_field', None), 
+		results=session.get('results', None),
+		urls=[url_for('route_analyze_emotion')])
+
+@app.route('/', methods=['GET'])
+def route_home():
+	return render_template('index.html', title="Nothing Here")
 
 
