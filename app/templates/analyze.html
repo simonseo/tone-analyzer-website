@@ -6,16 +6,19 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta charset="UTF-8">
 	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-<h1>{{ title }}</h1>
+<header><h1>{{ title }}</h1></header>
 <form method=POST>
   <dl>
     {{ render_field(form.username) }}
     {{ render_field(form.hashtag) }}
     {{ render_field(form.text_data) }}
   </dl>
-  <input type="submit" value="Analyze!">
+  <div class="center">
+    <input type="submit" value="Analyze!">
+  </div>
 </form>
 </body>
 </html>

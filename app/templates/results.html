@@ -3,22 +3,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ title }}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>{{ title }}</h1>
-    <p><a href="{{ urls[0] }}">Try again</a></p>
-    {% if results['input_field'] == "username" %}
-      {{ render_emotion_user(results['keyword'], results['data'], results['score']) }} 
-    {% endif %}
-    {% if results['input_field'] == "hashtag" %}
-      {{ render_emotion_hashtag(results['keyword'], results['data']['statuses'], results['score']) }}
-    {% endif %}
-    {% if results['input_field'] == "text_data" %}
-      {{ render_emotion_text(results['data'], results['score']) }}
-    {% endif %}
+	<header>
+		<h1>{{ title }}</h1>
+		<p><a href="{{ urls[0] }}">Try again</a></p>
+	</header>
+	{% if results['input_field'] == "username" %}
+		{{ render_emotion_user(results['keyword'], results['data'], results['score']) }} 
+	{% elif results['input_field'] == "hashtag" %}
+		{{ render_emotion_hashtag(results['keyword'], results['data']['statuses'], results['score']) }}
+	{% elif results['input_field'] == "text_data" %}
+		{{ render_emotion_text(results['data'], results['score']) }}
+	{% else %}
+		<p class="error">There was an error, try again :(</p>
+	{% endif %}
+	<script>
+		window.onload = function() {
+			var tweets = document.getElementsByClassName('twitter-tweet');
+			for (var i = 0; i < tweets.legnth; i++) {
+				tweet = tweets[i];
+				tweet.style.display = "inline-block";
+			}
+		}
+	</script>
 </body>
 </html>

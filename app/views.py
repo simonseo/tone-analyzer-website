@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 # @File Name: views.py
 # @Created:   2018-11-27 10:59:29  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 15:49:35  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 17:04:33  Simon Seo (simon.seo@nyu.edu)
 import os, logging
 logger = logging.getLogger(__name__)
 
@@ -25,25 +25,31 @@ twitter_api = TwitterAPI()
 def route_analyze_emotion():
 	form = EmotionAnalysisForm(request.form) # is request.form required here? 
 	if request.method == 'POST' and form.validate():
-		if form.username.data:
-			input_field = "username"
-			keyword = form.username.data.replace('@', '')
-			documents, response = twitter_api.get_tweets_by_username(keyword, 20)
-			documents = ' '.join(documents)
-			data = response
-			emotion_scores, errors = azure_api.analyze_emotion([documents], ['en'])
-		elif form.hashtag.data:
-			input_field = "hashtag"
-			keyword = form.hashtag.data.replace('#', '')
-			documents, response = twitter_api.get_tweets_by_hashtag(keyword, 20)
-			documents = ' '.join(documents)
-			data = response
-			emotion_scores, errors = azure_api.analyze_emotion([documents], ['en'])
-		elif form.text_data.data:
-			input_field = "text_data"
-			keyword = None
-			data = form.text_data.data
-			emotion_scores, errors = azure_api.analyze_emotion([form.text_data.data], ['en'])
+		try:
+			if form.username.data:
+				input_field = "username"
+				keyword = form.username.data.replace('@', '')
+				documents, response = twitter_api.get_tweets_by_username(keyword, 20)
+				documents = ' '.join(documents)
+				data = response
+				emotion_scores, errors = azure_api.analyze_emotion([documents], ['en'])
+			elif form.hashtag.data:
+				input_field = "hashtag"
+				keyword = form.hashtag.data.replace('#', '')
+				documents, response = twitter_api.get_tweets_by_hashtag(keyword, 20)
+				documents = ' '.join(documents)
+				data = response
+				emotion_scores, errors = azure_api.analyze_emotion([documents], ['en'])
+			elif form.text_data.data:
+				input_field = "text_data"
+				keyword = None
+				data = form.text_data.data.split('\n')
+				emotion_scores, errors = azure_api.analyze_emotion([form.text_data.data], ['en'])
+		except Exception as e:
+			input_field = ""
+			keyword = ""
+			data = []
+			emotion_scores = [0]
 		session['results'] = {
 			'input_field' : input_field,
 			'keyword' : keyword,

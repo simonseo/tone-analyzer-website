@@ -30,31 +30,39 @@
     <span class="highly_positive">very happy!! :)</span>
   {% elif score > 0.5 %}
     <span class="positive">happy!</span>
-  {% elif score > 0.2 %}
+  {% elif score > 0.3 %}
     <span class="neutral">okay</span>
+  {% elif score > 0.1 %}
+    <span class="negative">kinda bad</span>
   {% else %}
-    <span class="negative">sad :(</span>
+    <span class="highly_negative">sad :'(</span>
   {% endif %}
 {% endmacro %}
 
 
 {% macro render_tweets(tweets) %}
+  <div class="twitter">
   {% for tweet in tweets %}
+  
   <blockquote class="twitter-tweet" data-lang="en" data-conversation="none">
     <p lang="en" dir="ltr">
       {{ tweet['full_text'] }}
     </p>
     &mdash; {{ tweet['user']['name'] }} @{{ username }} <a href="https://twitter.com/{{ tweet['user']['id'] }}/status/{{ tweet['id'] }}">{{ tweet['created_at'] }}</a></blockquote>
   {% endfor %}
+  </div>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endmacro %}
 
 
-
 {% macro render_emotion_user(username, tweets, score) %}
   <section class="emotion emotion_user">
-    <p><a href="https://twitter.com/{{ username }}" class="keyword">@{{ username }}</a> is feeling {{ map_score_to_emotion(score) }}</p>
-    <p><span class="score_label">Score:</span> <span class="score">{{ score }}</span></p>
+    <div class="emotion">
+      <p><a href="https://twitter.com/{{ username }}" class="keyword">@{{ username }}</a> is feeling {{ map_score_to_emotion(score) }}</p>
+      <p><span class="score_label">Happiness Score:</span> <span class="score">{{ score }}</span></p>
+    </div>
+  </section>
+  <section>
     {{ render_tweets(tweets) }}
   </section>
 {% endmacro %}
@@ -62,9 +70,12 @@
 
 {% macro render_emotion_hashtag(hashtag, tweets, score) %}
   <section class="emotion emotion_hashtag">
-    <p><a href="https://twitter.com/?q={{ hashtag }}" class="keyword">Reading through #{{ hashtag }}</a> made me feel {{ map_score_to_emotion(score) }}</p>
-    <p><span class="score_label">Score:</span> <span class="score">{{ score }}</span></p>
-
+    <div class="emotion">
+      <p>Reading through <a href="https://twitter.com/?q={{ hashtag }}" class="keyword">#{{ hashtag }}</a> made me feel {{ map_score_to_emotion(score) }}</p>
+      <p><span class="score_label">Happiness Score:</span> <span class="score">{{ score }}</span></p>
+    </div>
+  </section>
+  <section>
     {{ render_tweets(tweets) }}
   </section>
 {% endmacro %}
@@ -72,8 +83,14 @@
 
 {% macro render_emotion_text(text, score) %}
   <section class="emotion emotion_text">
-    <p>Whoever wrote this is feeling {{ map_score_to_emotion(score) }}</p>
-    <p><span class="score_label">Score:</span> <span class="score">{{ score }}</span></p>
-    <p>{{ text }}</p>
+    <div class="emotion">
+      <p>Whoever wrote this is feeling {{ map_score_to_emotion(score) }}</p>
+      <p><span class="score_label">Happiness Score:</span> <span class="score">{{ score }}</span></p>
+    </div>
+  </section>
+  <section>
+    {% for line in text %}
+    <p>{{ line }}</p>
+    {% endfor %}
   </section>
 {% endmacro %}

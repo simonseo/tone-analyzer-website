@@ -1,0 +1,111 @@
+/*
+* @Author: Simon Myunggun Seo
+* @Date:   2018-11-27 15:59:23
+* @Last Modified by:   Simon Seo
+* @Last Modified time: 2018-11-27 17:16:45
+*/
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+header {
+	padding: 20px;
+	padding-bottom: 15px;
+}
+h1 {
+	font-size: 36px;
+}
+
+dt {
+	margin-left: 40px;
+}
+
+dd {
+	margin-bottom: 8px;
+}
+input {
+	padding: 4px;
+}
+#hashtag, #username {
+	-webkit-appearance: searchfield;
+	text-align: right;
+	width: 150px;
+	font-size: 1.2em;
+	border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+	background-color: ghostwhite;
+}
+
+#text_data {
+	/*-webkit-appearance: textarea;*/
+	border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+	background-color: ghostwhite;
+	width: 500px;
+    height: 200px;
+}
+
+div.center {
+	text-align: center;
+	max-width: 600px;
+}
+
+
+ul.flash_message {
+	border-style: solid;
+    border-width: 1px;
+    border-color: hotpink;
+    border-radius: 5px;
+    background: lightpink;
+}
+
+ul.flash_message li {
+	padding: 2px;
+}
+
+section {
+	text-align: center;
+}
+div.twitter {
+    display: inline-block;
+}
+.twitter-tweet {
+}
+input[type="submit"] {
+	font-size: large;
+	padding: 4px;
+}
+section.emotion {
+	font-size: 18px;
+	margin-bottom: 40px;
+
+}
+section.emotion div {
+	display: inline-block;
+	border-width: 1px;
+	border-radius: 5px;
+	border-style: solid;
+	padding: 25px 40px;
+	max-width: 750px;
+}
+.highly_positive, .positive, .neutral, .negative, .highly_negative {
+	font-weight: bold;
+}
+.highly_positive {
+	color: green;
+}
+.positive {
+	color: purple;
+} 
+.neutral {
+	color: grey;
+} 
+.negative {
+	color: blue;
+}
+.highly_negative {
+	color: red;
+}

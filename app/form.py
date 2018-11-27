@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*- 
 # @File Name: form.py
 # @Created:   2018-11-27 11:16:48  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 15:53:27  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 17:17:26  Simon Seo (simon.seo@nyu.edu)
 
-from wtforms import Form, StringField, validators
+from wtforms import Form, StringField, TextAreaField, validators
 
 class EmotionAnalysisForm(Form):
 	username = StringField(
@@ -17,7 +17,7 @@ class EmotionAnalysisForm(Form):
 		validators=[validators.Optional()],
 		description="Enter a Twitter Hashtag without the #"
 		)
-	text_data = StringField(
+	text_data = TextAreaField(
 		label='Text Data',
 		validators=[
 			validators.Optional(),
@@ -38,7 +38,7 @@ class EmotionAnalysisForm(Form):
 			self.text_data.errors.append(msg)
 			return False
 		if cnt > 1:
-			msg = "Please provide only one field please."
+			msg = "Please provide only one field"
 			for field in l:
 				if field.data:
 					field.errors.append(msg)
