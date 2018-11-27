@@ -11,6 +11,7 @@
   </dd>
 {% endmacro %}
 
+
 {% macro render_flash() %}
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -36,6 +37,7 @@
   {% endif %}
 {% endmacro %}
 
+
 {% macro render_tweets(tweets) %}
   {% for tweet in tweets %}
   <blockquote class="twitter-tweet" data-lang="en" data-conversation="none">
@@ -57,6 +59,7 @@
   </section>
 {% endmacro %}
 
+
 {% macro render_emotion_hashtag(hashtag, tweets, score) %}
   <section class="emotion emotion_hashtag">
     <p><a href="https://twitter.com/?q={{ hashtag }}" class="keyword">Reading through #{{ hashtag }}</a> made me feel {{ map_score_to_emotion(score) }}</p>
@@ -66,9 +69,10 @@
   </section>
 {% endmacro %}
 
+
 {% macro render_emotion_text(text, score) %}
   <section class="emotion emotion_text">
-    <p>Whoever wrote this is {{ map_score_to_emotion(score) }}</p>
+    <p>Whoever wrote this is feeling {{ map_score_to_emotion(score) }}</p>
     <p><span class="score_label">Score:</span> <span class="score">{{ score }}</span></p>
     <p>{{ text }}</p>
   </section>

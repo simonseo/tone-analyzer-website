@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 # @File Name: form.py
 # @Created:   2018-11-27 11:16:48  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 13:32:27  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 15:53:27  Simon Seo (simon.seo@nyu.edu)
 
 from wtforms import Form, StringField, validators
 
@@ -21,9 +21,9 @@ class EmotionAnalysisForm(Form):
 		label='Text Data',
 		validators=[
 			validators.Optional(),
-			validators.Length(max=3000)
+			validators.Length(max=5000)
 			],
-		description="Enter any text < 3000 characters"
+		description="Enter any text < 5000 characters"
 		)
 
 	def validate(self):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 # @File Name: views.py
 # @Created:   2018-11-27 10:59:29  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 15:26:48  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 15:49:35  Simon Seo (simon.seo@nyu.edu)
 import os, logging
 logger = logging.getLogger(__name__)
 
@@ -59,13 +59,12 @@ def route_analyze_emotion():
 def route_analysis_results():
 	score = session.get('results').get('score')
 	return render_template('results.html', 
-		title='I am feeling {}'.format(map_score_to_emotion(score)), 
-		input_field=session.get('input_field', None), 
+		title="I'm feeling {}".format(map_score_to_emotion(score)), 
 		results=session.get('results', None),
 		urls=[url_for('route_analyze_emotion')])
 
 @app.route('/', methods=['GET'])
 def route_home():
-	return render_template('index.html', title="Nothing Here")
+	return redirect(url_for('route_analyze_emotion'))
 
 

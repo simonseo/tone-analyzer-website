@@ -11,13 +11,13 @@
 <body>
     <h1>{{ title }}</h1>
     <p><a href="{{ urls[0] }}">Try again</a></p>
-    {% if input_field == "username" %}
+    {% if results['input_field'] == "username" %}
       {{ render_emotion_user(results['keyword'], results['data'], results['score']) }} 
     {% endif %}
-    {% if input_field == "hashtag" %}
+    {% if results['input_field'] == "hashtag" %}
       {{ render_emotion_hashtag(results['keyword'], results['data']['statuses'], results['score']) }}
     {% endif %}
-    {% if input_field == "text_data" %}
+    {% if results['input_field'] == "text_data" %}
       {{ render_emotion_text(results['data'], results['score']) }}
     {% endif %}
 </body>
