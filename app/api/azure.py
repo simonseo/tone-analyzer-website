@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 # @File Name: azure.py
 # @Created:   2018-11-27 09:42:10  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 11:14:36  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 11:53:09  Simon Seo (simon.seo@nyu.edu)
 
 import os
 import requests
@@ -43,7 +43,7 @@ class AzureCognitiveAPI():
 			logger.info("There was an error while detecting languages: {}".format(errors))
 		languages = sorted(response.get('documents', []), key=lambda doc:doc['id']) # sort by id
 		iso6391Names = [sorted(lang['detectedLanguages'], key=lambda l: l['score'])[-1]['iso6391Name'] for lang in languages] # get highest ranked language
-		return iso6391Names
+		return iso6391Names, errors
 		
 	def analyze_emotion(self, documents):
 		'''Analyze the emotion of each entry in a list of str documents
@@ -67,7 +67,7 @@ class AzureCognitiveAPI():
 			logger.info("There was an error while analyzing emotions: {}".format(errors))
 		sentiments = sorted(response.get('documents', []), key=lambda doc:doc['id']) # sort by id
 		emotion_scores = [sent['score'] for sent in sentiments] # get scores for each emotion
-		return emotion_scores
+		return emotion_scores, errors
 
 
 if __name__ == '__main__':
