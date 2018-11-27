@@ -1,0 +1,23 @@
+{% from "_formhelpers.html" import render_field, render_flash %}
+{{ render_flash() }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta charset="UTF-8">
+	<title>{{ title }}</title>
+</head>
+<body>
+<h1>{{ title }}</h1>
+<form method=POST>
+  <dl>
+    {{ render_field(form.qr_url) }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.confirm) }}
+    {{ render_field(form.accept_tos) }}
+  </dl>
+  <input type=submit value=Register>
+</form>
+</body>
+</html>

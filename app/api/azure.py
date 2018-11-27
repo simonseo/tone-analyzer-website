@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 # @File Name: azure.py
 # @Created:   2018-11-27 09:42:10  Simon Myunggun Seo (simon.seo@nyu.edu) 
-# @Updated:   2018-11-27 10:59:17  Simon Seo (simon.seo@nyu.edu)
+# @Updated:   2018-11-27 11:14:36  Simon Seo (simon.seo@nyu.edu)
 
 import os
 import requests
