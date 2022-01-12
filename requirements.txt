@@ -8,7 +8,7 @@ itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.0
 oauthlib==2.1.0
-pipenv==2018.11.26
+pipenv==2022.1.8
 python-dotenv==0.9.1
 requests==2.20.1
 requests-oauthlib==1.0.0
